@@ -325,7 +325,7 @@ def get_libraries(include_python_lib=False):
         if PY2:
             link_py_fmt = 'python{version}'
         else:
-            link_py_fmt = 'python{version}m'
+            link_py_fmt = 'python{version}'
         link_py = link_py_fmt.format(version=sysconfig.get_python_version())
 
     if include_python_lib:
