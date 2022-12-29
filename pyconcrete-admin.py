@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import fnmatch
+import re
 import os
 import sys
 import unittest
@@ -118,7 +118,7 @@ class PyConcreteAdmin(object):
 
     def _compile_dir(self, args, folder):
         # ignore patterns
-        patterns = self._get_ignore_patterns(args)
+        patterns = args.ignore_file_list
         for file in os.listdir(folder):
             fullpath = join(folder, file)
             if (file in IGNORE_FILES or self._fnmatch(fullpath, patterns)):
@@ -203,15 +203,7 @@ class PyConcreteAdmin(object):
 
     @staticmethod
     def _fnmatch(name, patterns):
-        """Test whether FILENAME matches PATTERN.
-
-        Patterns are Unix shell style:
-        *       matches everything
-        ?       matches any single character
-        [seq]   matches any character in seq
-        [!seq]  matches any char not in seq
-        """
-        return any(fnmatch.fnmatch(name, pat) for pat in patterns)
+        return any(re.search(pat, name) for pat in patterns)
 
 
 if __name__ == '__main__':
